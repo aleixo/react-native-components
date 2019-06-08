@@ -20,7 +20,7 @@ export default class Slider extends React.Component {
     };
 
 
-    // this.autoPlayIntervalRef = setInterval(autoplayHandler, autoplayInterval);
+    this.autoPlayIntervalRef = setInterval(autoplayHandler, autoplayInterval);
   }
 
   _handleFLatListMount = (ref) => {
@@ -43,7 +43,7 @@ export default class Slider extends React.Component {
   _nextIndexLeft = () => {
     const { pages } = this.props;
     const nextObviousIndex = this.currentIndex + 1;
-    return nextObviousIndex >= pages.length ? 0 : nextObviousIndex;
+    return nextObviousIndex > pages.length - 1 ? 0 : nextObviousIndex;
   }
 
   _listItem = ({ item }) => {

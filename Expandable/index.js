@@ -16,7 +16,7 @@ class Expandable extends React.Component {
 
   _toggleSection = (section) => {
     this.props.willToggle();
-
+    console.log('toggle')
     this.setState({
       data: this.state.data.map(item => {
         if (item.key !== section.key) {
@@ -49,7 +49,6 @@ class Expandable extends React.Component {
               }}
               onPress={() => this._toggleSection(section)}
             >
-
               {this.props.renderHeader(section)}
             </TouchableOpacity>
           )}
@@ -61,7 +60,7 @@ class Expandable extends React.Component {
 }
 
 Expandable.propTypes = {
-  controlExpand: PropTypes.bool.isRequired,
+  controlExpand: PropTypes.bool,
   data: PropTypes.array.isRequired,
   didMount: PropTypes.func,
   didToggle: PropTypes.func,
@@ -72,6 +71,7 @@ Expandable.propTypes = {
 }
 
 Expandable.defaultProps = {
+  controlExpand: false,
   didMount: () => null,
   didToggle: () => null,
   willToggle: () => null,
