@@ -16,7 +16,7 @@ class Expandable extends React.Component {
 
   _toggleSection = (section) => {
     this.props.willToggle();
-    console.log('toggle')
+
     this.setState({
       data: this.state.data.map(item => {
         if (item.key !== section.key) {
@@ -35,20 +35,11 @@ class Expandable extends React.Component {
       <SectionList
         renderItem={({ section }) => section.expanded ? this.props.renderExpanded(section) : this.props.renderCollapsed(section)}
         renderSectionHeader={({ section }) => this.props.controlExpand ? (
-          <View
-            style={{
-              flex: 1, backgroundColor: 'red'
-            }}
-          >
+          <View>
             {this.props.renderHeader(section, this._toggleSection.bind(this, section))}
           </View>
         ) : (
-            <TouchableOpacity
-              style={{
-                flex: 1, backgroundColor: 'red'
-              }}
-              onPress={() => this._toggleSection(section)}
-            >
+            <TouchableOpacity onPress={() => this._toggleSection(section)} >
               {this.props.renderHeader(section)}
             </TouchableOpacity>
           )}
