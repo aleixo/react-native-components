@@ -4,19 +4,47 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Expandable from './Expandable';
 import AnimatedNumber from './AnimatedNumber';
 import Slider from './Slider';
+import Button from './Button';
+import AnimatedToolbar from './AnimatedToolbar';
+import AudioPlayer from './AudioPlayer';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Expandable
-
         data={[
           { title: 'Title1dasdsdfdsfdsfds', data: ['item1', 'item2'] },
           { title: 'Title2', data: ['item3', 'item4'] },
           { title: 'Title3', data: ['item5', 'item6'] },
         ]}
         renderExpanded={(data) => <Text>{data.title} expanded</Text>}
-        renderHeader={(data) => <Text style={{ fontWeight: 'bold' }}>{data.title}</Text>}
+        renderHeader={(data) =>
+          <Text
+            style={{ fontWeight: 'bold' }}
+          >
+            {data.title}
+          </Text>
+        }
+      />
+
+      <AnimatedToolbar
+        backgroundColor='red'
+        toHeight={100}
+        fadeinDuration={1000}
+        fadeoutAfter={2000}
+        fadeoutDuration={1000}
+        fadeout
+      />
+
+      <Button
+        small
+        applyTopBottomPaddings
+        title="BUTTON"
+        backgroundColor="red"
+      />
+
+      <AudioPlayer
+        sound={require('./assets/audio.mp3')}
       />
 
       <Expandable
@@ -32,6 +60,7 @@ export default function App() {
             <Text style={{ fontWeight: 'bold' }}>{data.title} - 2</Text>
           </TouchableOpacity>}
       />
+
       <View style={{ width: 100 }}>
         <Slider
           autoplay

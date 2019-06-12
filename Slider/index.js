@@ -19,7 +19,6 @@ export default class Slider extends React.Component {
       this.listRef.scrollToIndex({ animated: true, index: this.currentIndex });
     };
 
-
     this.autoPlayIntervalRef = setInterval(autoplayHandler, autoplayInterval);
   }
 
