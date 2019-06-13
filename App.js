@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import Expandable from './Expandable';
+import * as Expandable from './Expandable';
 import AnimatedNumber from './AnimatedNumber';
 import Slider from './Slider';
 import Button from './Button';
@@ -11,21 +11,58 @@ import AudioPlayer from './AudioPlayer';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Expandable
-        data={[
-          { title: 'Title1dasdsdfdsfdsfds', data: ['item1', 'item2'] },
-          { title: 'Title2', data: ['item3', 'item4'] },
-          { title: 'Title3', data: ['item5', 'item6'] },
-        ]}
-        renderExpanded={(data) => <Text>{data.title} expanded</Text>}
-        renderHeader={(data) =>
-          <Text
-            style={{ fontWeight: 'bold' }}
-          >
-            {data.title}
-          </Text>
-        }
-      />
+      <Expandable.Container
+        collapseOthers
+      >
+        <Expandable.Element
+          key="1"
+          data={[
+            { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQ', data: ['item1', 'item2'] },
+            { title: 'Title2', data: ['item3', 'item4'] },
+            { title: 'Title3', data: ['item5', 'item6'] },
+          ]}
+          renderExpanded={(data) => <Text>{data.title} expanded</Text>}
+          renderHeader={(data) =>
+            <Text
+              style={{ fontWeight: 'bold' }}
+            >
+              {data.title}
+            </Text>
+          }
+        />
+        <Expandable.Element
+          key="2"
+          data={[
+            { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
+            { title: 'Title2', data: ['item3', 'item4'] },
+            { title: 'Title3', data: ['item5', 'item6'] },
+          ]}
+          renderExpanded={(data) => <Text>{data.title} expanded</Text>}
+          renderHeader={(data) =>
+            <Text
+              style={{ fontWeight: 'bold' }}
+            >
+              {data.title}
+            </Text>
+          }
+        />
+        <Expandable.Element
+          key="3"
+          data={[
+            { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
+            { title: 'Title2', data: ['item3', 'item4'] },
+            { title: 'Title3', data: ['item5', 'item6'] },
+          ]}
+          renderExpanded={(data) => <Text>{data.title} expanded</Text>}
+          renderHeader={(data) =>
+            <Text
+              style={{ fontWeight: 'bold' }}
+            >
+              {data.title}
+            </Text>
+          }
+        />
+      </Expandable.Container>
 
       <AnimatedToolbar
         backgroundColor='red'
@@ -47,7 +84,7 @@ export default function App() {
         sound={require('./assets/audio.mp3')}
       />
 
-      <Expandable
+      <Expandable.Element
         controlExpand
         data={[
           { title: '2 - Title1dasdsdfdsfdsfds', data: ['2item1', '2item2'] },
