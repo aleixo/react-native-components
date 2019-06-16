@@ -1,7 +1,12 @@
+import PureElement from './Element';
 import Container from './Container';
-import Element from './Element';
+import withContext from './withContext';
+
+const Element = withContext(PureElement);
 
 export {
+  PureElement,
+  Element,
   Container,
-  Element
+  withContext,
 }

@@ -12,10 +12,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Expandable.Container
-        collapseOthers
       >
         <Expandable.Element
-          key="1"
+
           data={[
             { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQ', data: ['item1', 'item2'] },
             { title: 'Title2', data: ['item3', 'item4'] },
@@ -31,7 +30,7 @@ export default function App() {
           }
         />
         <Expandable.Element
-          key="2"
+
           data={[
             { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
             { title: 'Title2', data: ['item3', 'item4'] },
@@ -47,7 +46,39 @@ export default function App() {
           }
         />
         <Expandable.Element
-          key="3"
+          namespace="groupit"
+          data={[
+            { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
+            { title: 'Title2', data: ['item3', 'item4'] },
+            { title: 'Title3', data: ['item5', 'item6'] },
+          ]}
+          renderExpanded={(data) => <Text>{data.title} expanded</Text>}
+          renderHeader={(data) =>
+            <Text
+              style={{ fontWeight: 'bold' }}
+            >
+              {data.title}
+            </Text>
+          }
+        />
+        <Expandable.Element
+          namespace="groupit1111"
+          data={[
+            { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
+            { title: 'Title2', data: ['item3', 'item4'] },
+            { title: 'Title3', data: ['item5', 'item6'] },
+          ]}
+          renderExpanded={(data) => <Text>{data.title} expanded</Text>}
+          renderHeader={(data) =>
+            <Text
+              style={{ fontWeight: 'bold' }}
+            >
+              {data.title}
+            </Text>
+          }
+        />
+        <Expandable.Element
+          namespace="groupit1111"
           data={[
             { title: 'Title1dasdsdfdsfdsfdsdsadswwwQQQAAA', data: ['item1', 'item2'] },
             { title: 'Title2', data: ['item3', 'item4'] },
@@ -84,7 +115,7 @@ export default function App() {
         sound={require('./assets/audio.mp3')}
       />
 
-      <Expandable.Element
+      <Expandable.PureElement
         controlExpand
         data={[
           { title: '2 - Title1dasdsdfdsfdsfds', data: ['2item1', '2item2'] },

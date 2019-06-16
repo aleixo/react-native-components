@@ -1,36 +1,46 @@
 import React from 'react';
 
-class Container extends React.Component {
+import Context from './context';
+
+export default class Container extends React.Component {
   constructor(props) {
     super(props);
 
-    this.elementsRefs = []
+    this.expandablesActions = {}
   }
 
-  _handleDidToggle = (obj) => {
-    this.elementsRefs.forEach(ref => {
-      ref._collapseAll()
-      ref._expandOne(obj)
+  _registerExpandableActions = (namespace, actions) => {
+    if (!namespace) {
+      return
+    }
+    this.expandablesActions = {
+      ...this.expandablesActions,
+      [namespace]: {
+        ...this.expandablesActions[namespace],
+        [`${Math.random()}`]: actions
+      }
+    };
+  }
+
+  _didToggle = (section, namespace) => {
+    if (!namespace) {
+      return
+    }
+    Object.keys(this.expandablesActions[namespace]).forEach(key => {
+      this.expandablesActions[namespace][key].collapseExcept(section)
     })
   }
 
+  _contextValue = () => ({
+    registerExpandableActions: this._registerExpandableActions,
+    __didToggle: this._didToggle,
+  })
+
   render() {
-    const { children } = this.props;
-    if (Array.isArray(children)) {
-
-      return children.map(Component => {
-        const Elm = React.cloneElement(Component,
-          {
-
-            didToggle: this._handleDidToggle,
-            ref: ref => this.elementsRefs = [...this.elementsRefs, ref],
-          });
-
-        return Elm
-      })
-    }
-    return { ...children }
+    return (
+      <Context.Provider value={this._contextValue()}>
+        {this.props.children}
+      </Context.Provider>
+    )
   }
 }
-
-export default Container;

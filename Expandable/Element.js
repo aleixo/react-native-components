@@ -7,35 +7,28 @@ class Expandable extends React.Component {
   constructor(props) {
     super(props);
 
+    const { data } = this.props;
     this.state = {
-      data: this.props.data.map(item => (
-        { ...item, key: `${Math.random()}` }))
-    };
-  }
+      data: data.map(header => {
+        const mapped = this.props.dataMapper ? this.props.dataMapper(header) : header;
 
-  _expandOne = (section) => {
-    this.setState({
-      data: this.state.data.map(item => ({ ...item, expanded: item.key === section.key }))
-    })
-  }
-
-  _collapseAll = () => {
-    this.setState({
-      data: this.state.data.map(item => ({ ...item, expanded: false }))
-    })
-  }
-
-  _expandAll = () => {
-    this.setState({
-      data: this.state.data.map(item => ({ ...item, expanded: true }))
-    })
+        return {
+          ...mapped,
+          key: `${Math.random()}`,
+          data: mapped.data.map(m => ({ ...m, key: `${Math.random()}` })),
+        }
+      })
+    }
+    this.listKey = `${Math.random()}`;
   }
 
   _toggleSection = (section) => {
-    this.props.willToggle();
+    const { willToggle, __didToggle, namespace } = this.props;
+    const { data } = this.state;
+    willToggle();
 
     this.setState({
-      data: this.state.data.map(item => {
+      data: data.map((item) => {
         if (item.key !== section.key) {
           return item;
         }
@@ -43,51 +36,79 @@ class Expandable extends React.Component {
         return {
           ...item,
           expanded: !item.expanded
-        }
+        };
       })
-    }, () => this.props.didToggle({ ...section, expanded: !section.expanded }));
+    }, __didToggle.bind(null, section, namespace));
+  }
+
+  collapseAll = () => {
+    const { data } = this.state;
+    this.setState({
+      data: data.map((item) => {
+        return {
+          ...item,
+          expanded: false
+        };
+      })
+    });
+  }
+
+  collapseExcept = (section) => {
+    const { data } = this.state;
+
+    this.setState({
+      data: data.map((item) => {
+        if (item.key === section.key) {
+          return item;
+        }
+
+        return {
+          ...item,
+          expanded: false
+        };
+      })
+    });
   }
 
   render() {
 
+    const {
+      renderHeader, renderExpanded, renderCollapsed, controlExpand,
+    } = this.props;
+    const { data } = this.state;
+    
     return (
       <SectionList
-        renderItem={({ section }) => section.expanded ? this.props.renderExpanded(section) : this.props.renderCollapsed(section)
-        }
-        renderSectionHeader={({ section }) => this.props.controlExpand ? (
-          <View>
-            {this.props.renderHeader(section, this._toggleSection.bind(this, section))}
-          </View>
+        sections={data}
+        listKey={this.listKey}
+        renderItem={({ item, section }) => section.expanded ? renderExpanded(item, section) : renderCollapsed(item, section)}
+        renderSectionHeader={({ section }) => (controlExpand ? (
+          renderHeader(section, this._toggleSection.bind(this, section))
         ) : (
-            <TouchableOpacity onPress={() => this._toggleSection(section)} >
-              {this.props.renderHeader(section)}
+            <TouchableOpacity onPress={() => this._toggleSection(section)}>
+              {renderHeader(section)}
             </TouchableOpacity>
-          )}
-        sections={this.state.data}
-        keyExtractor={(item, index) => item + index}
+          ))}
       />
-    )
+    );
   }
 }
 
 Expandable.propTypes = {
   controlExpand: PropTypes.bool,
-  data: PropTypes.array.isRequired,
-  didMount: PropTypes.func,
-  didToggle: PropTypes.func,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  __didToggle: PropTypes.func,
   willToggle: PropTypes.func,
   renderExpanded: PropTypes.func.isRequired,
   renderHeader: PropTypes.func.isRequired,
   renderCollapsed: PropTypes.func,
-}
+};
 
 Expandable.defaultProps = {
   controlExpand: false,
-  didMount: () => null,
-  didToggle: () => null,
+  __didToggle: () => null,
   willToggle: () => null,
   renderCollapsed: () => null,
-  ref: () => null,
-}
+};
 
 export default Expandable;
