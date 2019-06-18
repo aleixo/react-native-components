@@ -1,12 +1,11 @@
-import PureElement from './Element';
 import Container from './Container';
 import withContext from './withContext';
+import PureCollapsible from './Collapsible';
 
-const Element = withContext(PureElement);
+const Collapsible = withContext(PureCollapsible);
 
 export {
-  PureElement,
-  Element,
+  Collapsible,
   Container,
   withContext,
 }
